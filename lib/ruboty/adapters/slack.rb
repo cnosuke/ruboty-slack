@@ -78,14 +78,9 @@ module Ruboty
       end
 
       def connect
-        loop do
-          res = client.connect
-          unless res
-            Ruboty.logger.warn('Connection with Slack server was closed')
-          else
-            break
-          end
-        end
+        client.connect
+      rescue REXML::ParseException => e
+        Ruboty.logger.warn("Connection with Slack server was closed: #{e.class.to_s - e.message}")
       end
 
       # @note Ignores delayed messages when ruboty was logging out
